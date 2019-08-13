@@ -20,3 +20,15 @@ C:\Users\Usuario\Desktop\InstalarSWComa\ServiceTags\ServiceTags\obj\Debug\Servic
 C:\Users\Usuario\Desktop\InstalarSWComa\ServiceTags\ServiceTags\obj\Debug\ServiceTags.csproj.CopyComplete
 C:\Users\Usuario\Desktop\InstalarSWComa\ServiceTags\ServiceTags\obj\Debug\ServiceTags.exe
 C:\Users\Usuario\Desktop\InstalarSWComa\ServiceTags\ServiceTags\obj\Debug\ServiceTags.pdb
+C:\Users\Usuario\Desktop\LaMeraChuleta\ServiceTags\ServiceTags\bin\Debug\ServiceTags.exe.config
+C:\Users\Usuario\Desktop\LaMeraChuleta\ServiceTags\ServiceTags\bin\Debug\ServiceTags.exe
+C:\Users\Usuario\Desktop\LaMeraChuleta\ServiceTags\ServiceTags\bin\Debug\ServiceTags.pdb
+C:\Users\Usuario\Desktop\LaMeraChuleta\ServiceTags\ServiceTags\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\Usuario\Desktop\LaMeraChuleta\ServiceTags\ServiceTags\obj\Debug\ServiceTags.csprojAssemblyReference.cache
+C:\Users\Usuario\Desktop\LaMeraChuleta\ServiceTags\ServiceTags\obj\Debug\ServiceTags.ProjectInstaller.resources
+C:\Users\Usuario\Desktop\LaMeraChuleta\ServiceTags\ServiceTags\obj\Debug\ServiceTags.ServiceTags.resources
+C:\Users\Usuario\Desktop\LaMeraChuleta\ServiceTags\ServiceTags\obj\Debug\ServiceTags.csproj.GenerateResource.cache
+C:\Users\Usuario\Desktop\LaMeraChuleta\ServiceTags\ServiceTags\obj\Debug\ServiceTags.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\Desktop\LaMeraChuleta\ServiceTags\ServiceTags\obj\Debug\ServiceTags.csproj.CopyComplete
+C:\Users\Usuario\Desktop\LaMeraChuleta\ServiceTags\ServiceTags\obj\Debug\ServiceTags.exe
+C:\Users\Usuario\Desktop\LaMeraChuleta\ServiceTags\ServiceTags\obj\Debug\ServiceTags.pdb

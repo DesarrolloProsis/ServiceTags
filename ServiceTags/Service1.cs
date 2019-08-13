@@ -22,7 +22,7 @@ namespace ServiceTags
         private System.Timers.Timer timProcess = null;
         private int i = 0;
         private string path = @"C:\ExecutedActionWS\";
-        private string archivo = "WindowsServiceTagsPruebas.txt";
+        private string archivo = "WindowsServiceTagsPruebasNuevaVersion.txt";
         private bool SinRegistro = false;
         private static int Consecutivotxt = 0;
         private int CrucesIniciales = 0;
@@ -94,7 +94,7 @@ namespace ServiceTags
 
             if (Bandera == null)
 
-                Query = "SELECT CONTENU_ISO, VOIE, ID_GARE, TAB_ID_CLASSE, TO_CHAR(DATE_TRANSACTION, 'dd/mm/yyyy hh24:mi:ss')DATE_TRANSACTION, PRIX_TOTAL, EVENT_NUMBER, TAG_TRX_NB, INDICE_SUITE FROM  TRANSACTION Where  ID_PAIEMENT = '15' AND TO_CHAR(DATE_TRANSACTION, 'YYYY/MM/DD HH24:MI:SS' ) >= '2019/04/21 00:00:00' AND SUBSTR(TO_CHAR(CONTENU_ISO),0,3) = '501' and TAB_ID_CLASSE >=1 order by DATE_TRANSACTION ASC";
+                Query = "SELECT CONTENU_ISO, VOIE, ID_GARE, TAB_ID_CLASSE, TO_CHAR(DATE_TRANSACTION, 'dd/mm/yyyy hh24:mi:ss')DATE_TRANSACTION, PRIX_TOTAL, EVENT_NUMBER, TAG_TRX_NB, INDICE_SUITE FROM  TRANSACTION Where  ID_PAIEMENT = '15' AND TO_CHAR(DATE_TRANSACTION, 'YYYY/MM/DD HH24:MI:SS' ) >= '2019/04/21 00:00:00'  AND TO_CHAR(DATE_TRANSACTION, 'YYYY/MM/DD HH24:MI:SS' ) < '2019/04/26 00:00:00' AND SUBSTR(TO_CHAR(CONTENU_ISO),0,3) = '501' and TAB_ID_CLASSE >=1 order by DATE_TRANSACTION ASC";
             //Query = "SELECT CONTENU_ISO, VOIE, ID_GARE, TAB_ID_CLASSE, TO_CHAR(DATE_TRANSACTION, 'dd/mm/yyyy hh24:mi:ss')DATE_TRANSACTION, PRIX_TOTAL, EVENT_NUMBER FROM  TRANSACTION Where  ID_PAIEMENT = '15' AND TO_CHAR(DATE_TRANSACTION, 'YYYY/MM/DD HH24:MI:SS' ) > '2019/04/03 09:00:00'  AND ACD_CLASS >= 1  order by DATE_TRANSACTION ASC";
 
             else
@@ -108,7 +108,7 @@ namespace ServiceTags
 
 
             //string SQL = "Data Source=.;Initial Catalog=GTDB; Integrated Security=False;User Id=SA;Password=CAPUFE";
-            string SQL = "Data Source=.;Initial Catalog=GTDB; Integrated Security=False;User Id=Sa;Password=CAPUFE";
+            string SQL = "Data Source=.;Initial Catalog=GTDBPruebas; Integrated Security=False;User Id=Sa;Password=CAPUFE";
 
 
             SqlConnection ConexionSQL = new SqlConnection(SQL);
@@ -233,7 +233,7 @@ namespace ServiceTags
 
 
             //string SQL = "Data Source=.;Initial Catalog=GTDB; Integrated Security=False;User Id=SA;Password=CAPUFE";
-            string SQL = "Data Source=.;Initial Catalog=GTDB; Integrated Security=False;User Id=Sa;Password=CAPUFE";
+            string SQL = "Data Source=.;Initial Catalog=GTDBPruebas; Integrated Security=False;User Id=Sa;Password=CAPUFE";
 
             SqlConnection ConexionSQL = new SqlConnection(SQL);
             List<Bandera> Lista = new List<Bandera>();
@@ -440,7 +440,7 @@ namespace ServiceTags
                 string Query = string.Empty;
 
                 //string SQL = "Data Source=.;Initial Catalog=GTDB; Integrated Security=False;User Id=SA;Password=CAPUFE";
-                string SQL = "Data Source=.;Initial Catalog=GTDB; Integrated Security=False;User Id=Sa;Password=CAPUFE";
+                string SQL = "Data Source=.;Initial Catalog=GTDBPruebas; Integrated Security=False;User Id=Sa;Password=CAPUFE";
 
                 SqlConnection ConexionSQL = new SqlConnection(SQL);
 
@@ -554,12 +554,14 @@ namespace ServiceTags
 
 
             //string SQL = "Data Source=.;Initial Catalog=GTDB; Integrated Security=False;User Id=SA;Password=CAPUFE";
-            string SQL = "Data Source=.;Initial Catalog=GTDB; Integrated Security=False;User Id=Sa;Password=CAPUFE";
+            string SQL = "Data Source=.;Initial Catalog=GTDBPruebas; Integrated Security=False;User Id=Sa;Password=CAPUFE";
 
             SqlConnection ConexionSQL = new SqlConnection(SQL);
             string Query = string.Empty;
             string SaldoAnterior = string.Empty;
             string SaldoActualizado = string.Empty;
+            string NumeroCuenta = string.Empty;
+            string TipoCuenta = string.Empty;
             foreach (var item in Historicos)
             {
 
@@ -591,6 +593,9 @@ namespace ServiceTags
                             SaldoAnterior = Convert.ToString(item2.SaldoCuenta);
                             var NuevoSaldoColectivos = item2.SaldoCuenta - item2.DescuentoCruce;
                             SaldoActualizado = Convert.ToString(NuevoSaldoColectivos);
+                            //CambiosNewColumn
+                            NumeroCuenta = item2.NumCuenta;
+                            TipoCuenta = item2.TypeCuenta;
 
                             if (NuevoSaldoColectivos < 15.25)
                             {
@@ -601,10 +606,10 @@ namespace ServiceTags
                                     try
                                     {
                                         ConexionSQL.Open();
-                                        cmd.CommandText = "Update CuentasTelepeajes Set SaldoCuenta = '" + Convert.ToString((NuevoSaldoColectivos * 100)) + "' Where NumCuenta = '" + item2.NumCuenta + "'";
+                                        cmd.CommandText = "Update CuentasTelepeajes Set SaldoCuenta = '" + Convert.ToString(Math.Round((NuevoSaldoColectivos * 100),2)) + "' Where NumCuenta = '" + item2.NumCuenta + "'";
                                         cmd.ExecuteNonQuery();
 
-                                        cmd.CommandText = "Update Tags Set SaldoTag = '" + Convert.ToString((NuevoSaldoColectivos * 100)) + "' Where CuentaId = '" + item2.CuentaId + "'";
+                                        cmd.CommandText = "Update Tags Set SaldoTag = '" + Convert.ToString(Math.Round((NuevoSaldoColectivos * 100),2)) + "' Where CuentaId = '" + item2.CuentaId + "'";
                                         cmd.ExecuteNonQuery();
 
 
@@ -647,10 +652,10 @@ namespace ServiceTags
                                     {
                                         ConexionSQL.Open();
 
-                                        cmd.CommandText = "Update CuentasTelepeajes Set SaldoCuenta = '" + Convert.ToString((NuevoSaldoColectivos * 100)) + "' Where NumCuenta = '" + item2.NumCuenta + "'";
+                                        cmd.CommandText = "Update CuentasTelepeajes Set SaldoCuenta = '" + Convert.ToString(Math.Round((NuevoSaldoColectivos * 100), 2)) + "' Where NumCuenta = '" + item2.NumCuenta + "'";
                                         cmd.ExecuteNonQuery();
 
-                                        cmd.CommandText = "Update Tags Set SaldoTag = '" + Convert.ToString((NuevoSaldoColectivos * 100)) + "' Where CuentaId = '" + item2.CuentaId + "'";
+                                        cmd.CommandText = "Update Tags Set SaldoTag = '" + Convert.ToString(Math.Round((NuevoSaldoColectivos * 100), 2)) + "' Where CuentaId = '" + item2.CuentaId + "'";
                                         cmd.ExecuteNonQuery();
 
 
@@ -682,6 +687,12 @@ namespace ServiceTags
                             SaldoAnterior = Convert.ToString(item2.SaldoTag);
                             var NuevoSaldoIndividuales = item2.SaldoTag - item2.DescuentoCruce;
                             SaldoActualizado = Convert.ToString(NuevoSaldoIndividuales);
+                            //CambiosNewColumn
+                            NumeroCuenta = item2.NumCuenta;
+                            TipoCuenta = item2.TypeCuenta;
+
+
+
                             if (NuevoSaldoIndividuales < 15.25)
                             {
 
@@ -692,7 +703,7 @@ namespace ServiceTags
                                     {
                                         ConexionSQL.Open();
 
-                                        cmd.CommandText = "Update Tags Set SaldoTag = '" + Convert.ToString((NuevoSaldoIndividuales * 100)) + "' Where CuentaId = '" + item2.CuentaId + "'";
+                                        cmd.CommandText = "Update Tags Set SaldoTag = '" + Convert.ToString(Math.Round((NuevoSaldoIndividuales * 100), 2)) + "' Where CuentaId = '" + item2.CuentaId + "'";
                                         cmd.ExecuteNonQuery();
 
                                         if (ValidarExcentos(item.NumTag))
@@ -728,7 +739,7 @@ namespace ServiceTags
                                     {
                                         ConexionSQL.Open();
 
-                                        cmd.CommandText = "Update Tags Set SaldoTag = '" + Convert.ToString((NuevoSaldoIndividuales * 100)) + "' Where CuentaId = '" + item2.CuentaId + "'";
+                                        cmd.CommandText = "Update Tags Set SaldoTag = '" + Convert.ToString(Math.Round((NuevoSaldoIndividuales * 100), 2)) + "' Where CuentaId = '" + item2.CuentaId + "'";
                                         cmd.ExecuteNonQuery();
 
 
@@ -762,7 +773,7 @@ namespace ServiceTags
 
                 }
                 if (SinRegistro == false)
-                    ActualizarHistorico(Historicos, item.NumTag, item.Evento, SaldoAnterior, SaldoActualizado);
+                    ActualizarHistorico(Historicos, item.NumTag, item.Evento, SaldoAnterior, SaldoActualizado, NumeroCuenta, TipoCuenta);
             }
 
             using (StreamWriter file = new StreamWriter(path + archivo, true))
@@ -778,7 +789,7 @@ namespace ServiceTags
 
         }
 
-        public void ActualizarHistorico(List<Historico> Lista, string Tag, string Evento, string SaldoAnterior, string SaldoActualizado)
+        public void ActualizarHistorico(List<Historico> Lista, string Tag, string Evento, string SaldoAnterior, string SaldoActualizado, string NumeroCuenta, string TipoCuenta)
         {
             try
             {
@@ -806,13 +817,15 @@ namespace ServiceTags
                         row["Operador"] = "SIVA";
                     row["SaldoAnterior"] = SaldoAnterior.Replace(".",",");
                     row["SaldoActualizado"] = SaldoActualizado.Replace(".",",");
+                    row["NumeroCuenta"] = NumeroCuenta;
+                    row["TipoCuenta"] = TipoCuenta;
                     //row["TAG_TRX_NB"] = item.TAG_TRX_NB;
                     table.Rows.Add(row);
 
                 }
 
                 //string SQL = "Data Source=.;Initial Catalog=GTDB; Integrated Security=False;User Id=SA;Password=CAPUFE";
-                string SQL = "Data Source=.;Initial Catalog=GTDB; Integrated Security=False;User Id=Sa;Password=CAPUFE";
+                string SQL = "Data Source=.;Initial Catalog=GTDBPruebas; Integrated Security=False;User Id=Sa;Password=CAPUFE";
                 SqlConnection ConexionSQL = new SqlConnection(SQL);
 
                 using (SqlCommand SqlCommand = new SqlCommand("", ConexionSQL))
@@ -948,11 +961,18 @@ namespace ServiceTags
             Columna13.ColumnName = "SaldoActualizado";
             Columna13.DataType = System.Type.GetType("System.String");
             table.Columns.Add(Columna13);
-            //DataColumn Columna14;
-            //Columna14 = new DataColumn();
-            //Columna14.ColumnName = "TAG_TRX_NB";
-            //Columna14.DataType = System.Type.GetType("System.Int64");
-            //table.Columns.Add(Columna14);            
+            DataColumn Columna14;
+            Columna14 = new DataColumn();
+            Columna14.ColumnName = "NumeroCuenta";
+            Columna14.DataType = System.Type.GetType("System.String");
+            table.Columns.Add(Columna14);
+            DataColumn Columna15;
+            Columna15 = new DataColumn();
+            Columna15.ColumnName = "TipoCuenta";
+            Columna15.DataType = System.Type.GetType("System.String");
+            table.Columns.Add(Columna15);
+
+
             return table;
 
 
